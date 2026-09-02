@@ -1,0 +1,17 @@
+{
+  "name": "Anatomía AR 2.0",
+  "short_name": "Anatomía AR",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7fafc",
+  "theme_color": "#123b5d",
+  "description": "Atlas educativo 3D y WebAR de anatomía humana.",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
