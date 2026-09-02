@@ -53,4 +53,92 @@ document.querySelector("#next").onclick=()=>{qi=(qi+1)%questions.length;if(qi===
 let deferredPrompt;const installBtn=document.querySelector("#installBtn");
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;installBtn.hidden=false});
 installBtn.onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.hidden=true};
+// ======================================================
+// LANZADOR DE REALIDAD AUMENTADA
+// ======================================================
+
+const arButton = document.querySelector("#arButton");
+
+function showARMessage(message) {
+  alert(message);
+}
+
+async function launchAR() {
+
+  // Comprobar que la estructura seleccionada tenga modelo 3D
+  if (!selected || !selected.model) {
+    showARMessage(
+      "Esta estructura todavía no dispone de un modelo 3D para realidad aumentada."
+    );
+    return;
+  }
+
+  const modelURL = selected.model;
+
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  // --------------------------------------------------
+  // ANDROID: abrir Google Scene Viewer directamente
+  // --------------------------------------------------
+  if (isAndroid) {
+
+    const file = encodeURIComponent(modelURL);
+
+    const titleAR = encodeURIComponent(selected.name);
+
+    const fallback = encodeURIComponent(
+      window.location.href
+    );
+
+    const sceneViewerIntent =
+      "intent://arvr.google.com/scene-viewer/1.0" +
+      "?file=" + file +
+      "&mode=ar_only" +
+      "&title=" + titleAR +
+      "#Intent;" +
+      "scheme=https;" +
+      "package=com.google.ar.core;" +
+      "action=android.intent.action.VIEW;" +
+      "S.browser_fallback_url=" + fallback + ";" +
+      "end;";
+
+    window.location.href = sceneViewerIntent;
+
+    return;
+  }
+
+  // --------------------------------------------------
+  // OTROS DISPOSITIVOS
+  // --------------------------------------------------
+
+  try {
+
+    if (viewer && typeof viewer.activateAR === "function") {
+
+      await viewer.activateAR();
+
+    } else {
+
+      showARMessage(
+        "La realidad aumentada no está disponible en este navegador."
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error("Error al iniciar AR:", error);
+
+    showARMessage(
+      "No se pudo iniciar la realidad aumentada en este dispositivo."
+    );
+
+  }
+}
+
+if (arButton) {
+
+  arButton.addEventListener("click", launchAR);
+
+}
 if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
