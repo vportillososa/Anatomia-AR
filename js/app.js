@@ -1,7 +1,7 @@
-const BASE="https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/";
+const BASE = "https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/";
 
-const anatomy=[
-  {id:"heart",name:"Corazón",system:"Cardiovascular",icon:"🫀",model:"https://vportillososa.github.io/Anatomia-AR/model/heart_ar.glb",summary:"Órgano muscular situado en el mediastino que impulsa la sangre a través de la circulación pulmonar y sistémica.",function:"Genera la presión necesaria para mantener el flujo sanguíneo y permite la distribución de oxígeno y nutrientes.",parts:["Aurícula derecha","Aurícula izquierda","Ventrículo derecho","Ventrículo izquierdo","Aorta","Tronco pulmonar","Válvulas cardíacas"]},
+const anatomy = [
+  {id:"heart",name:"Corazón",system:"Cardiovascular",icon:"🫀",model:"https://vportillososa.github.io/Anatomia-AR/models/heart_ar.glb",summary:"Órgano muscular situado en el mediastino que impulsa la sangre a través de la circulación pulmonar y sistémica.",function:"Genera la presión necesaria para mantener el flujo sanguíneo y permite la distribución de oxígeno y nutrientes.",parts:["Aurícula derecha","Aurícula izquierda","Ventrículo derecho","Ventrículo izquierdo","Aorta","Tronco pulmonar","Válvulas cardíacas"]},
   {id:"vessels",name:"Vasculatura sanguínea",system:"Cardiovascular",icon:"🩸",model:BASE+"VH_M_Blood_Vasculature.glb",summary:"Red de vasos que comunica el corazón con los tejidos.",function:"Transporta sangre, gases, nutrientes, hormonas y productos del metabolismo.",parts:["Arterias","Arteriolas","Capilares","Vénulas","Venas"]},
   {id:"lungs",name:"Pulmones",system:"Respiratorio",icon:"🫁",model:BASE+"VH_M_Lung.glb",summary:"Órganos pares de la cavidad torácica responsables del intercambio gaseoso.",function:"Permiten incorporar oxígeno y eliminar dióxido de carbono mediante la ventilación y el intercambio alveolar.",parts:["Pulmón derecho","Pulmón izquierdo","Lóbulos","Bronquios intrapulmonares","Alvéolos"]},
   {id:"liver",name:"Hígado",system:"Digestivo",icon:"◒",model:BASE+"VH_M_Liver.glb",summary:"Gran órgano glandular situado principalmente en el cuadrante superior derecho del abdomen.",function:"Participa en metabolismo, almacenamiento, detoxificación y producción de bilis.",parts:["Lóbulo derecho","Lóbulo izquierdo","Vasos hepáticos","Vías biliares"]},
@@ -18,250 +18,231 @@ const anatomy=[
   {id:"spinal",name:"Médula espinal",system:"Nervioso",icon:"↕",model:null,summary:"Estructura del sistema nervioso central alojada en el canal vertebral.",function:"Conduce información entre encéfalo y cuerpo y participa en circuitos reflejos.",parts:["Región cervical","Torácica","Lumbar","Sacra","Raíces nerviosas"]}
 ];
 
-const questions=[
-["¿Qué cavidad cardíaca impulsa sangre hacia la circulación sistémica?","Ventrículo izquierdo",["Aurícula derecha","Ventrículo izquierdo","Ventrículo derecho","Aurícula izquierda"]],
-["¿Dónde ocurre principalmente el intercambio gaseoso pulmonar?","Alvéolos",["Pleura","Alvéolos","Tráquea","Diafragma"]],
-["¿Cuál es la principal función del intestino delgado?","Digestión y absorción de nutrientes",["Almacenar orina","Bombear sangre","Digestión y absorción de nutrientes","Control motor"]],
-["¿Qué órgano filtra la sangre y participa en la formación de orina?","Riñón",["Hígado","Riñón","Pulmón","Estómago"]],
-["¿Qué sistema protege y da soporte estructural al cuerpo?","Sistema óseo",["Sistema óseo","Sistema endocrino","Sistema respiratorio","Sistema digestivo"]],
-["¿Qué órgano produce bilis?","Hígado",["Corazón","Hígado","Vejiga","Pulmón"]],
-["¿Qué estructura almacena temporalmente la orina?","Vejiga urinaria",["Estómago","Vejiga urinaria","Aorta","Tráquea"]],
-["¿Qué estructura conecta funcionalmente el encéfalo con gran parte del cuerpo?","Médula espinal",["Píloro","Médula espinal","Aorta","Bronquio"]],
-["¿Qué sistema permite principalmente el movimiento voluntario junto con el esqueleto?","Sistema muscular",["Sistema urinario","Sistema muscular","Sistema tegumentario","Sistema linfático"]],
-["¿Cuántos ventrículos tiene el corazón humano?","Dos",["Uno","Dos","Tres","Cuatro"]]
+const questions = [
+  ["¿Qué cavidad cardíaca impulsa sangre hacia la circulación sistémica?","Ventrículo izquierdo",["Aurícula derecha","Ventrículo izquierdo","Ventrículo derecho","Aurícula izquierda"]],
+  ["¿Dónde ocurre principalmente el intercambio gaseoso pulmonar?","Alvéolos",["Pleura","Alvéolos","Tráquea","Diafragma"]],
+  ["¿Cuál es la principal función del intestino delgado?","Digestión y absorción de nutrientes",["Almacenar orina","Bombear sangre","Digestión y absorción de nutrientes","Control motor"]],
+  ["¿Qué órgano filtra la sangre y participa en la formación de orina?","Riñón",["Hígado","Riñón","Pulmón","Estómago"]],
+  ["¿Qué sistema protege y da soporte estructural al cuerpo?","Sistema óseo",["Sistema óseo","Sistema endocrino","Sistema respiratorio","Sistema digestivo"]],
+  ["¿Qué órgano produce bilis?","Hígado",["Corazón","Hígado","Vejiga","Pulmón"]],
+  ["¿Qué estructura almacena temporalmente la orina?","Vejiga urinaria",["Estómago","Vejiga urinaria","Aorta","Tráquea"]],
+  ["¿Qué estructura conecta funcionalmente el encéfalo con gran parte del cuerpo?","Médula espinal",["Píloro","Médula espinal","Aorta","Bronquio"]],
+  ["¿Qué sistema permite principalmente el movimiento voluntario junto con el esqueleto?","Sistema muscular",["Sistema urinario","Sistema muscular","Sistema tegumentario","Sistema linfático"]],
+  ["¿Cuántos ventrículos tiene el corazón humano?","Dos",["Uno","Dos","Tres","Cuatro"]]
 ];
 
-const cards=document.querySelector("#cards");
-const filters=document.querySelector("#filters");
+const cards = document.querySelector("#cards");
+const filters = document.querySelector("#filters");
+const viewer = document.querySelector("#viewer");
+const fallback = document.querySelector("#fallback");
+const title = document.querySelector("#organTitle");
+const tag = document.querySelector("#systemTag");
+const info = document.querySelector("#infoPanel");
 
-if (customArButton) {
-  customArButton.addEventListener("click", function (event) {
+let selected = anatomy[0];
+let tab = "resumen";
+let filter = "Todos";
 
-    event.preventDefault();
-    event.stopPropagation();
+function fallbackSVG(item) {
+  return `<div style="text-align:center"><svg viewBox="0 0 260 320" aria-label="${item.name}"><circle cx="130" cy="58" r="38" fill="#dceaf3"/><path d="M88 105Q130 82 172 105l23 120q-10 55-32 78h-66q-22-23-32-78z" fill="#dceaf3"/><circle cx="130" cy="166" r="42" fill="#a83d4b" opacity=".85"/><text x="130" y="285" text-anchor="middle" font-size="16" font-family="sans-serif" fill="#123b5d">${item.name}</text></svg><p style="color:#667481;max-width:420px">Ficha educativa disponible. Este módulo no incluye todavía un modelo 3D específico.</p></div>`;
+}
 
-    const modelUrl =
-      "https://vportillososa.github.io/Anatomia-AR/models/heart_ar.glb";
-
-    const isAndroid = /android/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-
-    window.location.href = sceneViewerUrl;
-
-    } else {
-
-      if (viewer && viewer.activateAR) {
-        viewer.activateAR();
-      }
-
-    }
-
+function renderFilters() {
+  if (!filters) return;
+  filters.innerHTML = "";
+  const systems = ["Todos", ...new Set(anatomy.map(item => item.system))];
+  systems.forEach(system => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = system;
+    button.className = system === filter ? "active" : "";
+    button.addEventListener("click", () => {
+      filter = system;
+      renderFilters();
+      renderCards();
+    });
+    filters.appendChild(button);
   });
 }
 
-if (customArButton) {
-  customArButton.addEventListener("click", () => {
-
-    if (!viewer || !viewer.src) {
-      alert("No hay un modelo 3D disponible para AR.");
-      return;
-    }
-
-    const modelUrl = new URL(
-      viewer.getAttribute("src") || viewer.src,
-      window.location.href
-    ).href;
-
-    const isAndroid = /android/i.test(navigator.userAgent);
-
-    if (isAndroid) {
-
-      const encodedModel = encodeURIComponent(modelUrl);
-
-      const fallbackUrl =
-        "https://arvr.google.com/scene-viewer/1.0?file=" +
-        encodedModel +
-        "&mode=3d_preferred";
-
-      const intentUrl =
-        "intent://arvr.google.com/scene-viewer/1.0" +
-        "?file=" + encodedModel +
-        "&mode=ar_preferred" +
-        "&title=" + encodeURIComponent(selected.name) +
-        "#Intent;" +
-        "scheme=https;" +
-        "package=com.google.android.googlequicksearchbox;" +
-        "action=android.intent.action.VIEW;" +
-        "S.browser_fallback_url=" + encodeURIComponent(fallbackUrl) + ";" +
-        "end;";
-
-      window.location.href = intentUrl;
-
-    } else {
-
-      if (viewer.activateAR) {
-        viewer.activateAR();
-      } else {
-        alert("AR no está disponible en este dispositivo.");
-      }
-
-    }
-  });
-}
-const fallback=document.querySelector("#fallback");
-const title=document.querySelector("#organTitle");
-const tag=document.querySelector("#systemTag");
-const info=document.querySelector("#infoPanel");
-let selected=anatomy[0],tab="resumen",filter="Todos";
-
-function fallbackSVG(item){return `<div style="text-align:center"><svg viewBox="0 0 260 320" aria-label="${item.name}"><circle cx="130" cy="58" r="38" fill="#dceaf3"/><path d="M88 105Q130 82 172 105l23 120q-10 55-32 78h-66q-22-23-32-78z" fill="#dceaf3"/><circle cx="130" cy="166" r="42" fill="#a83d4b" opacity=".85"/><text x="130" y="285" text-anchor="middle" font-size="16" font-family="sans-serif" fill="#123b5d">${item.name}</text></svg><p style="color:#667481;max-width:420px">Ficha educativa disponible. Este módulo no incluye todavía un modelo 3D específico.</p></div>`}
-
-function renderFilters(){
-  if(!filters) return;
-  filters.innerHTML="";
-  const systems=["Todos",...new Set(anatomy.map(x=>x.system))];
-  systems.forEach(s=>{
-    const b=document.createElement("button");
-    b.textContent=s;
-    b.className=s===filter?"active":"";
-    b.onclick=()=>{filter=s;renderFilters();renderCards()};
-    filters.appendChild(b);
+function renderCards() {
+  if (!cards) return;
+  cards.innerHTML = "";
+  anatomy.filter(item => filter === "Todos" || item.system === filter).forEach(item => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "organ-card" + (selected.id === item.id ? " active" : "");
+    button.innerHTML = `<span class="organ-icon">${item.icon}</span><span><b>${item.name}</b><small>${item.system}${item.model ? " · 3D/AR" : " · ficha"}</small></span>`;
+    button.addEventListener("click", () => selectItem(item));
+    cards.appendChild(button);
   });
 }
 
-function renderCards(){
-  if(!cards) return;
-  cards.innerHTML="";
-  anatomy.filter(x=>filter==="Todos"||x.system===filter).forEach(item=>{
-    const b=document.createElement("button");
-    b.className="organ-card"+(selected.id===item.id?" active":"");
-    b.innerHTML=`<span class="organ-icon">${item.icon}</span><span><b>${item.name}</b><small>${item.system}${item.model?" · 3D/AR":" · ficha"}</small></span>`;
-    b.onclick=()=>select(item);
-    cards.appendChild(b);
-  });
-}
+function selectItem(item) {
+  selected = item;
+  if (title) title.textContent = item.name;
+  if (tag) tag.textContent = item.system.toUpperCase();
 
-function select(item){
-  selected=item;
-  if(title) title.textContent=item.name;
-  if(tag) tag.textContent=item.system;
-  if(!viewer || !fallback) return;
-
-  if(item.model){
-    fallback.hidden=true;
-    fallback.innerHTML="";
-    viewer.hidden=false;
-    viewer.removeAttribute("src");
-    requestAnimationFrame(()=>{viewer.src=item.model});
-  }else{
-    viewer.removeAttribute("src");
-    viewer.hidden=true;
-    fallback.hidden=false;
-    fallback.innerHTML=fallbackSVG(item);
+  if (!viewer || !fallback) {
+    renderCards();
+    renderInfo();
+    return;
   }
+
+  if (item.model) {
+    fallback.hidden = true;
+    fallback.innerHTML = "";
+    viewer.hidden = false;
+    viewer.removeAttribute("src");
+    requestAnimationFrame(() => {
+      viewer.src = item.model;
+    });
+  } else {
+    viewer.removeAttribute("src");
+    viewer.hidden = true;
+    fallback.hidden = false;
+    fallback.innerHTML = fallbackSVG(item);
+  }
+
   renderCards();
   renderInfo();
 }
 
-function renderInfo(){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
-  if(!info) return;
-  if(tab==="resumen") info.innerHTML=`<h3>${selected.name}</h3><p>${selected.summary}</p>`;
-  if(tab==="funcion") info.innerHTML=`<h3>Función principal</h3><p>${selected.function}</p>`;
-  if(tab==="partes") info.innerHTML=`<h3>Estructuras principales</h3><div class="parts">${selected.parts.map(p=>`<span class="part">${p}</span>`).join("")}</div>`;
+function renderInfo() {
+  document.querySelectorAll(".tab").forEach(button => {
+    button.classList.toggle("active", button.dataset.tab === tab);
+  });
+  if (!info) return;
+  if (tab === "resumen") info.innerHTML = `<h3>${selected.name}</h3><p>${selected.summary}</p>`;
+  if (tab === "funcion") info.innerHTML = `<h3>Función principal</h3><p>${selected.function}</p>`;
+  if (tab === "partes") info.innerHTML = `<h3>Estructuras principales</h3><div class="parts">${selected.parts.map(part => `<span class="part">${part}</span>`).join("")}</div>`;
 }
 
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;renderInfo()});
-document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const target=document.getElementById(b.dataset.go);if(target)target.scrollIntoView({behavior:"smooth"})});
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => {
+    tab = button.dataset.tab;
+    renderInfo();
+  });
+});
 
-const arHelp=document.querySelector("#arHelp");
-if(arHelp){
-  arHelp.onclick=()=>{
-    const dlg=document.querySelector("#helpDialog");
-    if(dlg && typeof dlg.showModal==="function") dlg.showModal();
-  };
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.go);
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+const arHelp = document.querySelector("#arHelp");
+if (arHelp) {
+  arHelp.addEventListener("click", () => {
+    const dialog = document.querySelector("#helpDialog");
+    if (dialog && typeof dialog.showModal === "function") dialog.showModal();
+  });
 }
 
-if(viewer){
-  viewer.addEventListener("load",()=>{
-    console.log("Modelo 3D cargado:",viewer.src);
-    if(fallback) fallback.hidden=true;
-    viewer.hidden=false;
+if (viewer) {
+  viewer.addEventListener("load", () => {
+    console.log("Modelo 3D cargado:", viewer.src);
+    if (fallback) fallback.hidden = true;
+    viewer.hidden = false;
   });
 
-  viewer.addEventListener("error",(event)=>{
-    console.error("Error al cargar modelo 3D:",event);
-    viewer.hidden=true;
-    if(fallback){
-      fallback.hidden=false;
-      fallback.innerHTML='<div style="padding:28px;text-align:center"><h3>Visor 3D</h3><p>No se pudo cargar el modelo 3D.</p></div>';
+  viewer.addEventListener("error", event => {
+    console.error("Error al cargar modelo 3D:", event);
+    viewer.hidden = true;
+    if (fallback) {
+      fallback.hidden = false;
+      fallback.innerHTML = '<div style="padding:28px;text-align:center"><h3>Visor 3D</h3><p>No se pudo cargar el modelo 3D.</p></div>';
     }
   });
 
-  viewer.addEventListener("ar-status",(event)=>{
-    console.log("Estado AR:",event.detail.status);
+  viewer.addEventListener("ar-status", event => {
+    console.log("Estado AR:", event.detail.status);
   });
 }
 
-let qi=0,score=0,answered=false;
-function quiz(){
-  const next=document.querySelector("#next");
-  const feedback=document.querySelector("#feedback");
-  const progress=document.querySelector("#progress");
-  const scoreEl=document.querySelector("#score");
-  const question=document.querySelector("#question");
-  const box=document.querySelector("#answers");
-  if(!next||!feedback||!progress||!scoreEl||!question||!box) return;
+let qi = 0;
+let score = 0;
+let answered = false;
 
-  answered=false;
-  next.disabled=true;
-  feedback.textContent="";
-  progress.textContent=`Pregunta ${qi+1}/${questions.length}`;
-  scoreEl.textContent=`${score} puntos`;
-  const [q,a,opts]=questions[qi];
-  question.textContent=q;
-  box.innerHTML="";
+function renderQuiz() {
+  const next = document.querySelector("#next");
+  const feedback = document.querySelector("#feedback");
+  const progress = document.querySelector("#progress");
+  const scoreEl = document.querySelector("#score");
+  const question = document.querySelector("#question");
+  const answers = document.querySelector("#answers");
+  if (!next || !feedback || !progress || !scoreEl || !question || !answers) return;
 
-  opts.forEach(o=>{
-    const b=document.createElement("button");
-    b.className="answer";
-    b.textContent=o;
-    b.onclick=()=>{
-      if(answered)return;
-      answered=true;
-      [...box.children].forEach(x=>{if(x.textContent===a)x.classList.add("correct")});
-      if(o===a){score++;feedback.textContent="✓ Correcto"}else{b.classList.add("wrong");feedback.textContent=`Respuesta correcta: ${a}`}
-      scoreEl.textContent=`${score} puntos`;
-      next.disabled=false;
-    };
-    box.appendChild(b);
+  answered = false;
+  next.disabled = true;
+  feedback.textContent = "";
+  progress.textContent = `Pregunta ${qi + 1}/${questions.length}`;
+  scoreEl.textContent = `${score} puntos`;
+
+  const [questionText, correctAnswer, options] = questions[qi];
+  question.textContent = questionText;
+  answers.innerHTML = "";
+
+  options.forEach(option => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer";
+    button.textContent = option;
+    button.addEventListener("click", () => {
+      if (answered) return;
+      answered = true;
+      [...answers.children].forEach(answerButton => {
+        if (answerButton.textContent === correctAnswer) answerButton.classList.add("correct");
+      });
+      if (option === correctAnswer) {
+        score++;
+        feedback.textContent = "✓ Correcto";
+      } else {
+        button.classList.add("wrong");
+        feedback.textContent = `Respuesta correcta: ${correctAnswer}`;
+      }
+      scoreEl.textContent = `${score} puntos`;
+      next.disabled = false;
+    });
+    answers.appendChild(button);
   });
 }
 
-const nextButton=document.querySelector("#next");
-if(nextButton)nextButton.onclick=()=>{qi=(qi+1)%questions.length;if(qi===0)score=0;quiz()};
-quiz();
+const nextButton = document.querySelector("#next");
+if (nextButton) {
+  nextButton.addEventListener("click", () => {
+    qi = (qi + 1) % questions.length;
+    if (qi === 0) score = 0;
+    renderQuiz();
+  });
+}
 
-let deferredPrompt=null;
-const installBtn=document.querySelector("#installBtn");
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if(installBtn)installBtn.hidden=false});
-if(installBtn){
-  installBtn.onclick=async()=>{
-    if(!deferredPrompt)return;
+let deferredPrompt = null;
+const installBtn = document.querySelector("#installBtn");
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredPrompt = event;
+  if (installBtn) installBtn.hidden = false;
+});
+
+if (installBtn) {
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
-    deferredPrompt=null;
-    installBtn.hidden=true;
-  };
+    deferredPrompt = null;
+    installBtn.hidden = true;
+  });
 }
 
 renderFilters();
 renderCards();
-select(selected);
+selectItem(selected);
+renderQuiz();
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("./sw.js").catch(error=>console.error("Service Worker:",error));
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(error => console.error("Service Worker:", error));
   });
 }
