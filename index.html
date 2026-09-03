@@ -230,36 +230,27 @@ src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
       <div class="viewer-wrap">
 
 
-        <model-viewer
-          id="viewer"
+       <model-viewer
+  id="viewer"
+  camera-controls
+  auto-rotate
+  ar
+  ar-modes="scene-viewer webxr"
+  ar-scale="auto"
+  ar-placement="floor"
+  touch-action="pan-y"
+  shadow-intensity="1"
+  exposure="1"
+  environment-image="neutral">
 
-          camera-controls
+  <button
+    slot="ar-button"
+    class="ar-button">
+    ◉ Ver en AR
+ 
+  </button>
 
-          auto-rotate
-
-          ar
-
-          ar-modes="scene-viewer"
-
-          ar-scale="auto"
-          ar-placement="floor"
-
-          touch-action="pan-y"
-
-          shadow-intensity="1"
-
-          exposure="1"
-
-          environment-image="neutral">
-
-
-          <button
-          id="customArButton"
-          slot="ar-button"
-          class="ar-button"
-          type="button">
-  
-          ◉ Ver en AR
+</model-viewer>
 
           </button>
 
@@ -273,8 +264,6 @@ src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
 
       </div>
 
-
-
       <div class="tabs">
 
         <button
@@ -285,15 +274,12 @@ src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
 
         </button>
 
-
         <button
           class="tab"
           data-tab="partes">
 
           Partes
-
         </button>
-
 
         <button
           class="tab"
@@ -305,13 +291,10 @@ src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
 
       </div>
 
-
-
       <div
         id="infoPanel"
         class="info">
       </div>
-
 
       <p class="medical-note">
 
@@ -321,14 +304,11 @@ src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
 
       </p>
 
-
     </article>
 
   </div>
 
 </section>
-
-
 
 <section
   id="quiz"
