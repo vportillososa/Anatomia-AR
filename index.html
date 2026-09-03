@@ -1,496 +1,105 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#123b5d">
-<meta name="description" content="Anatomía AR 2.0: atlas educativo 3D y realidad aumentada.">
-
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/app.css">
-
-<title>Anatomía AR 2.0</title>
-
-<script type="module"
-src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#123b5d">
+  <meta name="description" content="Anatomía AR 2.0: atlas educativo 3D y realidad aumentada.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+  <title>Anatomía AR 2.0</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
-
 <body>
-
-<header class="topbar">
-
-  <a class="brand" href="#inicio">
-    <span class="brandmark">AR</span>
-    <span>
-      <b>Anatomía</b>
-      <small>Atlas 3D educativo</small>
-    </span>
-  </a>
-
-  <nav>
-    <button data-go="explorar">Explorar</button>
-    <button data-go="quiz">Evaluación</button>
-    <button data-go="creditos">Créditos</button>
-  </nav>
-
-  <button id="installBtn" class="install" hidden>
-    Instalar
-  </button>
-
-</header>
-
-
-<main>
-
-<section id="inicio" class="hero">
-
-  <div>
-
-    <span class="pill">
-      WebAR · PWA · 3D
-    </span>
-
-    <h1>
-      Explora el cuerpo humano en
-      <em>realidad aumentada</em>
-    </h1>
-
-    <p>
-      Selecciona un sistema, estudia sus estructuras,
-      manipula modelos 3D y, en dispositivos compatibles,
-      colócalos en tu entorno.
-    </p>
-
-    <div class="hero-actions">
-
-      <button class="primary" data-go="explorar">
-        Comenzar
-      </button>
-
-      <button class="secondary" data-go="quiz">
-        Modo evaluación
-      </button>
-
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">AR</div>
+      <div>
+        <strong>Anatomía</strong>
+        <small>Atlas 3D educativo</small>
+      </div>
     </div>
+    <nav class="topnav">
+      <button type="button" data-go="explorar">Explorar</button>
+      <button type="button" data-go="evaluacion">Evaluación</button>
+      <button type="button" data-go="creditos">Créditos</button>
+      <button type="button" id="installBtn" hidden>Instalar</button>
+    </nav>
+  </header>
 
-  </div>
+  <main>
+    <section id="explorar" class="explore-layout">
+      <aside class="sidebar">
+        <div id="filters" class="filters"></div>
+        <div id="cards" class="cards"></div>
+      </aside>
 
-
-  <div class="body-art"
-       aria-label="Ilustración educativa del cuerpo humano">
-
-    <svg viewBox="0 0 300 520" role="img">
-
-      <defs>
-
-        <linearGradient id="g" x1="0" x2="1">
-
-          <stop stop-color="#dceaf3"/>
-
-          <stop offset="1"
-                stop-color="#c7dce9"/>
-
-        </linearGradient>
-
-      </defs>
-
-
-      <circle
-        cx="150"
-        cy="58"
-        r="43"
-        fill="url(#g)"
-      />
-
-
-      <path
-        d="M105 105 Q150 82 195 105 L216 257 Q207 302 190 335 L183 493 H145 L150 333 L117 493 H79 L105 330 Q86 296 83 257Z"
-        fill="url(#g)"
-      />
-
-
-      <path
-        d="M111 130 Q95 173 99 221 Q123 243 145 221 L143 141 Q129 126 111 130Z"
-        fill="#d97a7a"
-        opacity=".85"
-      />
-
-
-      <path
-        d="M189 130 Q205 173 201 221 Q177 243 155 221 L157 141 Q171 126 189 130Z"
-        fill="#d97a7a"
-        opacity=".85"
-      />
-
-
-      <path
-        d="M151 164 C128 145 119 183 151 211 C183 183 174 145 151 164Z"
-        fill="#a83d4b"
-      />
-
-
-      <path
-        d="M128 235 Q150 220 172 235 L177 287 Q150 305 123 287Z"
-        fill="#9f7044"
-      />
-
-
-      <path
-        d="M118 301 Q150 283 182 301 Q188 335 173 361 Q150 374 127 361 Q112 335 118 301Z"
-        fill="#d9a65f"
-      />
-
-
-      <g fill="#3f6f91">
-
-        <circle
-          cx="150"
-          cy="57"
-          r="21"
-        />
-
-        <path
-          d="M145 78h10v49h-10z"
-        />
-
-      </g>
-
-    </svg>
-
-  </div>
-
-</section>
-
-
-
-<section id="explorar" class="section">
-
-  <div class="section-head">
-
-    <div>
-
-      <span class="kicker">
-        Atlas interactivo
-      </span>
-
-      <h2>
-        Sistemas y estructuras
-      </h2>
-
-    </div>
-
-    <div
-      class="filters"
-      id="filters">
-    </div>
-
-  </div>
-
-
-
-  <div class="atlas">
-
-    <aside
-      id="cards"
-      class="cards">
-    </aside>
-
-
-    <article class="viewer-card">
-
-
-      <div class="viewer-toolbar">
-
-        <div>
-
-          <span
-            id="systemTag"
-            class="tag">
-          </span>
-
-          <h2 id="organTitle"></h2>
-
+      <section class="viewer-card">
+        <div class="viewer-header">
+          <div>
+            <div id="systemTag" class="system-tag">CARDIOVASCULAR</div>
+            <h1 id="organTitle">Corazón</h1>
+          </div>
+          <button id="arHelp" type="button" class="help-link">¿Cómo usar AR?</button>
         </div>
 
-
-        <button
-          id="arHelp"
-          class="ghost">
-
-          ¿Cómo usar AR?
-
-        </button>
-
-      </div>
-
-
-
-      <div class="viewer-wrap">
-
-
-       <model-viewer
-  id="viewer"
-  camera-controls
-  auto-rotate
-  ar
-  ar-modes="scene-viewer webxr"
-  ar-scale="auto"
-  ar-placement="floor"
-  touch-action="pan-y"
-  shadow-intensity="1"
-  exposure="1"
-  environment-image="neutral">
-
-  <button
-    slot="ar-button"
-    class="ar-button">
-    ◉ Ver en AR
- 
-  </button>
-
-</model-viewer>
-
-          </button>
-
-        </model-viewer>
-
-        <div
-          id="fallback"
-          class="fallback"
-          hidden>
+        <div class="viewer-stage">
+          <model-viewer
+            id="viewer"
+            camera-controls
+            auto-rotate
+            ar
+            ar-modes="scene-viewer webxr"
+            ar-scale="auto"
+            ar-placement="floor"
+            touch-action="pan-y"
+            shadow-intensity="1"
+            exposure="1"
+            environment-image="neutral">
+            <button slot="ar-button" class="ar-button" type="button">◉ Ver en AR</button>
+          </model-viewer>
+          <div id="fallback" hidden></div>
         </div>
 
+        <div class="tabs">
+          <button type="button" class="tab active" data-tab="resumen">Resumen</button>
+          <button type="button" class="tab" data-tab="partes">Partes</button>
+          <button type="button" class="tab" data-tab="funcion">Función</button>
+        </div>
+        <div id="infoPanel" class="info-panel"></div>
+      </section>
+    </section>
+
+    <section id="evaluacion" class="quiz-section">
+      <div class="quiz-card">
+        <div class="quiz-head">
+          <span id="progress">Pregunta 1/10</span>
+          <span id="score">0 puntos</span>
+        </div>
+        <h2 id="question"></h2>
+        <div id="answers" class="answers"></div>
+        <p id="feedback" class="feedback"></p>
+        <button id="next" type="button" disabled>Siguiente</button>
       </div>
-
-      <div class="tabs">
-
-        <button
-          class="tab active"
-          data-tab="resumen">
-
-          Resumen
-
-        </button>
-
-        <button
-          class="tab"
-          data-tab="partes">
-
-          Partes
-        </button>
-
-        <button
-          class="tab"
-          data-tab="funcion">
-
-          Función
-
-        </button>
-
-      </div>
-
-      <div
-        id="infoPanel"
-        class="info">
-      </div>
-
-      <p class="medical-note">
-
-        Contenido educativo.
-        No sustituye asesoramiento,
-        diagnóstico ni tratamiento médico.
-
-      </p>
-
-    </article>
-
-  </div>
-
-</section>
-
-<section
-  id="quiz"
-  class="section quiz-section">
-
-
-  <span class="kicker">
-    Modo evaluación
-  </span>
-
-
-  <h2>
-    Comprueba lo aprendido
-  </h2>
-
-
-  <div class="quiz-card">
-
-
-    <div class="score">
-
-      <span id="progress">
-        Pregunta 1/10
-      </span>
-
-      <b id="score">
-        0 puntos
-      </b>
-
-    </div>
-
-
-    <h3 id="question"></h3>
-
-
-    <div
-      id="answers"
-      class="answers">
-    </div>
-
-
-    <p id="feedback"></p>
-
-
-    <button
-      id="next"
-      class="primary"
-      disabled>
-
-      Siguiente
-
-    </button>
-
-
-  </div>
-
-</section>
-
-
-
-<section
-  id="creditos"
-  class="section credits">
-
-
-  <span class="kicker">
-    Fuentes y licencias
-  </span>
-
-
-  <h2>
-    Créditos
-  </h2>
-
-
-  <p>
-
-    Los modelos 3D configurados en esta aplicación
-    proceden de la Human Reference Atlas / HuBMAP
-    CCF 3D Reference Object Library y se usan bajo
-    licencia CC BY 4.0.
-
-  </p>
-
-
-  <p>
-
-    <b>Referencia:</b>
-
-    Browne K., Cross L.E.,
-    Herr II B.W.,
-    Record E.G.,
-    Quardokus E.M.,
-    Bueckle A.,
-    Börner K.
-
-    HuBMAP CCF 3D Reference Object Library.
-
-  </p>
-
-
-  <p>
-
-    Las ilustraciones de respaldo,
-    interfaz y contenido didáctico de este
-    prototipo fueron creados específicamente
-    para Anatomía AR 2.0.
-
-  </p>
-
-
-</section>
-
-</main>
-
-
-
-<dialog id="helpDialog">
-
-
-  <button
-    class="close"
-    onclick="this.closest('dialog').close()">
-
-    ×
-
-  </button>
-
-
-  <h2>
-    Usar realidad aumentada
-  </h2>
-
-
-  <p>
-
-    1. Abre la aplicación desde
-    un teléfono compatible mediante HTTPS.
-
-  </p>
-
-
-  <p>
-
-    2. Selecciona una estructura
-    con modelo 3D.
-
-  </p>
-
-
-  <p>
-
-    3. Pulsa <b>Ver en AR</b>,
-    permite el acceso cuando
-    el dispositivo lo solicite
-    y apunta hacia una superficie.
-
-  </p>
-
-
-  <p>
-
-    4. Mueve el teléfono lentamente
-    hasta detectar el plano
-    y coloca el modelo.
-
-  </p>
-
-
-</dialog>
-
-
-
-<footer>
-
-  Anatomía AR 2.0 · Aplicación educativa WebAR
-
-</footer>
-
-
-<script src="js/app.js?v=16"></script>
-
+    </section>
+
+    <section id="creditos" class="credits-section">
+      <h2>Créditos</h2>
+      <p>Aplicación educativa de anatomía 3D y realidad aumentada. Los modelos anatómicos deben utilizarse con fines educativos y respetando las licencias de sus fuentes originales.</p>
+      <p>Esta aplicación no sustituye asesoramiento, diagnóstico ni formación médica profesional.</p>
+    </section>
+  </main>
+
+  <dialog id="helpDialog">
+    <h2>¿Cómo usar la realidad aumentada?</h2>
+    <p>Abre Anatomía AR desde Chrome en un dispositivo Android compatible. Selecciona una estructura 3D y pulsa “Ver en AR”.</p>
+    <p>Cuando se abra Scene Viewer, mueve lentamente el teléfono para detectar una superficie y coloca el modelo en tu espacio.</p>
+    <form method="dialog">
+      <button type="submit">Cerrar</button>
+    </form>
+  </dialog>
+
+  <script src="js/app.js?v=17"></script>
 </body>
-
 </html>
