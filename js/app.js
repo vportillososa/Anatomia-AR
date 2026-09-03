@@ -33,7 +33,57 @@ const questions=[
 
 const cards=document.querySelector("#cards");
 const filters=document.querySelector("#filters");
-const viewer=document.querySelector("#viewer");
+const customArButton = document.querySelector("#customArButton");
+
+if (customArButton) {
+  customArButton.addEventListener("click", () => {
+
+    if (!viewer || !viewer.src) {
+      alert("No hay un modelo 3D disponible para AR.");
+      return;
+    }
+
+    const modelUrl = new URL(
+      viewer.getAttribute("src") || viewer.src,
+      window.location.href
+    ).href;
+
+    const isAndroid = /android/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+
+      const encodedModel = encodeURIComponent(modelUrl);
+
+      const fallbackUrl =
+        "https://arvr.google.com/scene-viewer/1.0?file=" +
+        encodedModel +
+        "&mode=3d_preferred";
+
+      const intentUrl =
+        "intent://arvr.google.com/scene-viewer/1.0" +
+        "?file=" + encodedModel +
+        "&mode=ar_preferred" +
+        "&title=" + encodeURIComponent(selected.name) +
+        "#Intent;" +
+        "scheme=https;" +
+        "package=com.google.android.googlequicksearchbox;" +
+        "action=android.intent.action.VIEW;" +
+        "S.browser_fallback_url=" + encodeURIComponent(fallbackUrl) + ";" +
+        "end;";
+
+      window.location.href = intentUrl;
+
+    } else {
+
+      if (viewer.activateAR) {
+        viewer.activateAR();
+      } else {
+        alert("AR no está disponible en este dispositivo.");
+      }
+
+    }
+  });
+}
 const fallback=document.querySelector("#fallback");
 const title=document.querySelector("#organTitle");
 const tag=document.querySelector("#systemTag");
