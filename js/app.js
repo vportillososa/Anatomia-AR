@@ -33,7 +33,6 @@ const questions=[
 
 const cards=document.querySelector("#cards");
 const filters=document.querySelector("#filters");
-const customArButton = document.querySelector("#customArButton");
 
 if (customArButton) {
   customArButton.addEventListener("click", function (event) {
@@ -48,25 +47,7 @@ if (customArButton) {
 
     if (isAndroid) {
 
-      const sceneViewerUrl =
-        "intent://arvr.google.com/scene-viewer/1.0" +
-        "?file=" + encodeURIComponent(modelUrl) +
-        "&mode=ar_preferred" +
-        "&title=" + encodeURIComponent("Corazón") +
-        "#Intent;" +
-        "scheme=https;" +
-        "package=com.google.android.googlequicksearchbox;" +
-        "action=android.intent.action.VIEW;" +
-        "S.browser_fallback_url=" +
-        encodeURIComponent(
-          "https://arvr.google.com/scene-viewer/1.0?file=" +
-          encodeURIComponent(modelUrl) +
-          "&mode=3d_preferred"
-        ) +
-        ";" +
-        "end;";
-
-      window.location.href = sceneViewerUrl;
+    window.location.href = sceneViewerUrl;
 
     } else {
 
