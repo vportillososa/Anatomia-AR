@@ -36,6 +36,50 @@ const filters=document.querySelector("#filters");
 const customArButton = document.querySelector("#customArButton");
 
 if (customArButton) {
+  customArButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const modelUrl =
+      "https://vportillososa.github.io/Anatomia-AR/models/heart_ar.glb";
+
+    const isAndroid = /android/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+
+      const sceneViewerUrl =
+        "intent://arvr.google.com/scene-viewer/1.0" +
+        "?file=" + encodeURIComponent(modelUrl) +
+        "&mode=ar_preferred" +
+        "&title=" + encodeURIComponent("Corazón") +
+        "#Intent;" +
+        "scheme=https;" +
+        "package=com.google.android.googlequicksearchbox;" +
+        "action=android.intent.action.VIEW;" +
+        "S.browser_fallback_url=" +
+        encodeURIComponent(
+          "https://arvr.google.com/scene-viewer/1.0?file=" +
+          encodeURIComponent(modelUrl) +
+          "&mode=3d_preferred"
+        ) +
+        ";" +
+        "end;";
+
+      window.location.href = sceneViewerUrl;
+
+    } else {
+
+      if (viewer && viewer.activateAR) {
+        viewer.activateAR();
+      }
+
+    }
+
+  });
+}
+
+if (customArButton) {
   customArButton.addEventListener("click", () => {
 
     if (!viewer || !viewer.src) {
