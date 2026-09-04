@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b5d">
+<title>Anatomía AR V6 - Corazón original HuBMAP</title>
+
+<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;font-family:Arial,sans-serif}
+#top{position:fixed;z-index:9999;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
+#title{background:rgba(18,59,93,.94);color:white;padding:10px 14px;border-radius:14px;box-shadow:0 6px 22px rgba(0,0,0,.25)}
+#title b{display:block;font-size:16px}
+#title small{display:block;margin-top:3px}
+#back{pointer-events:auto;border:0;border-radius:999px;padding:10px 14px;background:white;color:#123b5d;font-weight:700}
+#status{position:fixed;z-index:9999;left:12px;right:12px;bottom:18px;background:rgba(255,255,255,.95);color:#17212b;padding:12px 14px;border-radius:14px;text-align:center;box-shadow:0 6px 22px rgba(0,0,0,.25);pointer-events:none}
+</style>
+</head>
+
+<body>
+<div id="top">
+  <div id="title">
+    <b>🫀 Corazón en Realidad Aumentada</b>
+    <small>V6 · modelo original HuBMAP/HRA</small>
+  </div>
+  <button id="back" onclick="location.href='./index.html'">Volver</button>
+</div>
+
+<div id="status">Iniciando MindAR y cargando VH_M_Heart.glb…</div>
+
+<a-scene
+ mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; warmupTolerance: 3; missTolerance: 5;"
+ embedded
+ color-space="sRGB"
+ renderer="colorManagement:true; physicallyCorrectLights:false; antialias:true;"
+ vr-mode-ui="enabled:false"
+ device-orientation-permission-ui="enabled:false">
+
+ <a-assets timeout="45000">
+   <a-asset-item id="heartOriginal" src="./models/VH_M_Heart.glb"></a-asset-item>
+ </a-assets>
+
+ <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+
+ <!-- Iluminación: no modifica el GLB original -->
+ <a-light type="ambient" color="#ffffff" intensity="1.35"></a-light>
+ <a-light type="directional" color="#ffffff" intensity="1.4" position="1 2 2"></a-light>
+ <a-light type="directional" color="#ffffff" intensity="0.65" position="-2 1 1"></a-light>
+
+ <a-entity id="heartTarget" mindar-image-target="targetIndex:0">
+   <!--
+     El archivo original conserva sus coordenadas y materiales.
+     Solo transformamos el nodo contenedor en tiempo de ejecución.
+   -->
+   <a-entity
+     id="heart"
+     gltf-model="#heartOriginal"
+     position="0 -1.75 0.12"
+     rotation="-90 0 0"
+     scale="4 4 4">
+   </a-entity>
+ </a-entity>
+</a-scene>
+
+<script>
+const scene = document.querySelector("a-scene");
+const target = document.querySelector("#heartTarget");
+const heart = document.querySelector("#heart");
+const status = document.querySelector("#status");
+
+scene.addEventListener("arReady", () => {
+  status.textContent = "✓ Cámara activa. Apunta a la misma tarjeta usada en V4.";
+});
+scene.addEventListener("arError", () => {
+  status.textContent = "✗ MindAR no pudo iniciar la cámara.";
+});
+heart.addEventListener("model-loaded", () => {
+  status.textContent = "✓ VH_M_Heart.glb original cargado. Apunta a la tarjeta.";
+});
+heart.addEventListener("model-error", () => {
+  status.textContent = "✗ No se pudo cargar models/VH_M_Heart.glb. Revisa exactamente el nombre del archivo.";
+});
+target.addEventListener("targetFound", () => {
+  status.textContent = "✓ Imagen reconocida · corazón original HuBMAP/HRA.";
+});
+target.addEventListener("targetLost", () => {
+  status.textContent = "Imagen perdida. Vuelve a mostrar la tarjeta completa.";
+});
+</script>
+</body>
+</html>
