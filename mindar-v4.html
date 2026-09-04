@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MindAR V4 - Prueba mínima</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <style>
+    html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#000; font-family:Arial,sans-serif; }
+    #status {
+      position:fixed; z-index:9999; left:12px; right:12px; bottom:18px;
+      background:rgba(255,255,255,.94); padding:12px; border-radius:14px;
+      text-align:center; color:#17212b; pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+<div id="status">Iniciando MindAR y solicitando la cámara…</div>
+
+<a-scene
+  mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;"
+  embedded
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
+
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+  <a-entity id="target" mindar-image-target="targetIndex: 0">
+    <a-plane color="blue" opacity="0.75" position="0 0 0" height="0.552" width="1"></a-plane>
+    <a-box color="red" position="0 0 0.25" scale="0.25 0.25 0.25"></a-box>
+  </a-entity>
+</a-scene>
+
+<script>
+  const scene = document.querySelector("a-scene");
+  const target = document.querySelector("#target");
+  const status = document.querySelector("#status");
+
+  scene.addEventListener("arReady", () => {
+    status.textContent = "✓ Cámara activa. Ahora apunta a la tarjeta de prueba de MindAR.";
+  });
+
+  scene.addEventListener("arError", () => {
+    status.textContent = "✗ MindAR no pudo iniciar la cámara.";
+  });
+
+  target.addEventListener("targetFound", () => {
+    status.textContent = "✓ Imagen reconocida. Debes ver el plano azul y el cubo rojo.";
+  });
+
+  target.addEventListener("targetLost", () => {
+    status.textContent = "Imagen perdida. Vuelve a apuntar a la tarjeta completa.";
+  });
+</script>
+</body>
+</html>
