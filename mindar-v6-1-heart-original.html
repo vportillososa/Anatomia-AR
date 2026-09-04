@@ -18,7 +18,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;font-f
 <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; warmupTolerance: 3; missTolerance: 5;"
  embedded color-space="sRGB" renderer="colorManagement:true; physicallyCorrectLights:false; antialias:true;"
  vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false">
-<a-assets timeout="45000"><a-asset-item id="heartOriginal" src="./models/VH_M_Heart.glb"></a-asset-item></a-assets>
+<a-assets timeout="45000"><a-asset-item id="heartOriginal" src="./model/VH_M_Heart.glb"></a-asset-item></a-assets>
 <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 <a-light type="ambient" color="#ffffff" intensity="0.75"></a-light>
 <a-light type="directional" color="#ffffff" intensity="0.85" position="1 2 2"></a-light>
@@ -31,7 +31,7 @@ const s=document.querySelector("a-scene"),t=document.querySelector("#heartTarget
 s.addEventListener("arReady",()=>m.textContent="✓ Cámara activa. Apunta a la misma tarjeta de MindAR.");
 s.addEventListener("arError",()=>m.textContent="✗ MindAR no pudo iniciar la cámara.");
 h.addEventListener("model-loaded",()=>m.textContent="✓ VH_M_Heart.glb cargado. Apunta a la tarjeta.");
-h.addEventListener("model-error",()=>m.textContent="✗ No se pudo cargar models/VH_M_Heart.glb.");
+h.addEventListener("model-error",()=>m.textContent="✗ No se pudo cargar model/VH_M_Heart.glb.");
 t.addEventListener("targetFound",()=>m.textContent="✓ Imagen reconocida · V6.1 corazón original.");
 t.addEventListener("targetLost",()=>m.textContent="Imagen perdida. Vuelve a mostrar la tarjeta completa.");
 </script></body></html>
