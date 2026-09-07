@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b5d"><title>Anatomía AR V6.2</title>
+<link rel="preload" href="./model/VH_M_Heart.glb" as="fetch" crossorigin>
+<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;font-family:Arial,sans-serif}
+.panel{position:fixed;z-index:9999;left:12px;right:12px;padding:12px 14px;border-radius:14px}
+#head{top:12px;background:rgba(18,59,93,.94);color:#fff} #status{bottom:16px;background:rgba(255,255,255,.95);text-align:center;color:#17212b}
+</style></head><body>
+<div id="head" class="panel"><b>🫀 Corazón AR · V6.2 optimizada</b><br><small>El modelo se precarga antes de iniciar la cámara</small></div>
+<div id="status" class="panel">Cargando corazón 3D…</div>
+<a-scene mindar-image="imageTargetSrc:https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;autoStart:false;warmupTolerance:2;missTolerance:4;uiLoading:no;uiScanning:no;uiError:no"
+ embedded color-space="sRGB" renderer="colorManagement:true;physicallyCorrectLights:false;antialias:true" vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false">
+<a-assets timeout="60000"><a-asset-item id="heartAsset" src="./model/VH_M_Heart.glb"></a-asset-item></a-assets>
+<a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+<a-light type="ambient" color="#fff" intensity=".75"></a-light>
+<a-light type="directional" color="#fff" intensity=".85" position="1 2 2"></a-light>
+<a-light type="directional" color="#fff" intensity=".30" position="-2 1 1"></a-light>
+<a-entity id="target" mindar-image-target="targetIndex:0">
+<a-entity id="heart" gltf-model="#heartAsset" position="0 -3.25 .16" rotation="-90 0 0" scale="7.5 7.5 7.5"></a-entity>
+</a-entity></a-scene>
+<script>
+const s=document.querySelector('a-scene'),m=document.querySelector('#heart'),t=document.querySelector('#target'),st=document.querySelector('#status');let started=false;
+function start(){if(started)return;const a=s.systems['mindar-image-system'];if(!a){setTimeout(start,200);return}started=true;st.textContent='✓ Modelo listo. Iniciando cámara…';a.start()}
+m.addEventListener('model-loaded',start);
+m.addEventListener('model-error',()=>st.textContent='✗ Error cargando ./model/VH_M_Heart.glb');
+s.addEventListener('arReady',()=>st.textContent='✓ Cámara lista. Apunta a la tarjeta.');
+s.addEventListener('arError',()=>st.textContent='✗ No se pudo iniciar la cámara.');
+t.addEventListener('targetFound',()=>st.textContent='✓ Tarjeta reconocida · corazón listo.');
+t.addEventListener('targetLost',()=>st.textContent='Vuelve a apuntar a la tarjeta completa.');
+</script></body></html>
