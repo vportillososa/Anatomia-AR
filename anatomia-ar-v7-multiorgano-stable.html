@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b5d">
+<title>Anatomía AR V7.0 Multi-órgano</title>
+<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;font-family:Arial,sans-serif}
+#top{position:fixed;z-index:9999;top:10px;left:10px;right:10px;background:rgba(18,59,93,.95);color:#fff;border-radius:14px;padding:10px}
+#buttons{display:flex;gap:7px;overflow-x:auto;margin-top:7px}
+button{border:0;border-radius:999px;background:#fff;color:#123b5d;padding:9px 11px;font-weight:700;white-space:nowrap}
+button.active{background:#dcecf7;outline:3px solid rgba(255,255,255,.45)}
+#status{position:fixed;z-index:9999;left:10px;right:10px;bottom:14px;background:rgba(255,255,255,.96);color:#17212b;border-radius:14px;padding:11px;text-align:center}
+#hint{display:block;font-size:12px;margin-top:4px;color:#4d5b67}
+</style>
+</head>
+<body>
+
+<div id="top">
+<b>🧍 Anatomía AR · V7.0 Multi-órgano</b>
+<div id="buttons"></div>
+</div>
+
+<div id="status">Preparando aplicación…<span id="hint">Selecciona un órgano y apunta a la misma tarjeta MindAR.</span></div>
+
+<a-scene id="scene"
+ mindar-image="imageTargetSrc:https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind;autoStart:false;filterMinCF:0.0005;filterBeta:700;warmupTolerance:5;missTolerance:8;uiLoading:no;uiScanning:no;uiError:no"
+ embedded color-space="sRGB"
+ renderer="colorManagement:true;physicallyCorrectLights:false;antialias:true"
+ vr-mode-ui="enabled:false"
+ device-orientation-permission-ui="enabled:false">
+
+<a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+<a-light type="ambient" color="#fff" intensity=".75"></a-light>
+<a-light type="directional" color="#fff" intensity=".85" position="1 2 2"></a-light>
+<a-light type="directional" color="#fff" intensity=".30" position="-2 1 1"></a-light>
+
+<a-entity id="target" mindar-image-target="targetIndex:0">
+<a-entity id="organModel" visible="false"></a-entity>
+</a-entity>
+</a-scene>
+
+<script>
+const ORGANS=[
+{ id:'heart', icon:'🫀', name:'Corazón', local:'./model/VH_M_Heart.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Heart.glb', position:'0 -3.25 0.16', rotation:'-90 0 0', scale:'7.5 7.5 7.5'},
+{ id:'lungs', icon:'🫁', name:'Pulmones', local:'./model/VH_M_Lung.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Lung.glb', position:'0 -3.45 0.15', rotation:'-90 0 0', scale:'6 6 6'},
+{ id:'liver', icon:'◆', name:'Hígado', local:'./model/VH_M_Liver.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Liver.glb', position:'0 -3.15 0.15', rotation:'-90 0 0', scale:'6 6 6'},
+{ id:'kidneyL', icon:'◉', name:'Riñón izq.', local:'./model/VH_M_Kidney_L.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Kidney_L.glb', position:'0 -2.7 0.13', rotation:'-90 0 0', scale:'8 8 8'},
+{ id:'kidneyR', icon:'◉', name:'Riñón der.', local:'./model/VH_M_Kidney_R.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Kidney_R.glb', position:'0 -2.7 0.13', rotation:'-90 0 0', scale:'8 8 8'},
+{ id:'intestine', icon:'〰', name:'Intestino delgado', local:'./model/VH_M_Small_Intestine.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Small_Intestine.glb', position:'0 -3.55 0.14', rotation:'-90 0 0', scale:'5.5 5.5 5.5'},
+{ id:'vessels', icon:'🩸', name:'Vasculatura', local:'./model/VH_M_Blood_Vasculature.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Blood_Vasculature.glb', position:'0 -4.2 0.11', rotation:'-90 0 0', scale:'5 5 5'},
+{ id:'skin', icon:'🧍', name:'Piel/Cuerpo', local:'./model/VH_M_Skin.glb', remote:'https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/VH_M_Skin.glb', position:'0 -4.5 0.07', rotation:'-90 0 0', scale:'4.5 4.5 4.5'}
+];
+
+const scene=document.querySelector('#scene');
+const target=document.querySelector('#target');
+const model=document.querySelector('#organModel');
+const status=document.querySelector('#status');
+const hint=document.querySelector('#hint');
+const buttons=document.querySelector('#buttons');
+let current=null, arStarted=false, loadToken=0;
+
+function setStatus(a,b=''){status.firstChild.nodeValue=a;hint.textContent=b}
+function markActive(id){[...buttons.children].forEach(b=>b.classList.toggle('active',b.dataset.id===id))}
+async function sourceFor(o){
+  try{
+    const r=await fetch(o.local,{method:'HEAD',cache:'no-store'});
+    if(r.ok)return o.local;
+  }catch(e){}
+  return o.remote;
+}
+function startAR(){
+  if(arStarted)return;
+  const sys=scene.systems['mindar-image-system'];
+  if(!sys){setTimeout(startAR,200);return}
+  arStarted=true;
+  setStatus('✓ Modelo listo. Iniciando cámara…','Después apunta a la tarjeta.');
+  sys.start();
+}
+async function loadOrgan(o){
+  current=o; const token=++loadToken; markActive(o.id);
+  model.setAttribute('visible','false');
+  model.removeAttribute('gltf-model');
+  setStatus('Cargando '+o.name+'…','Primero preparamos el modelo para reducir la demora.');
+  const src=await sourceFor(o);
+  if(token!==loadToken)return;
+  model.setAttribute('position',o.position);
+  model.setAttribute('rotation',o.rotation);
+  model.setAttribute('scale',o.scale);
+  model.setAttribute('gltf-model','url('+src+')');
+}
+ORGANS.forEach(o=>{
+  const b=document.createElement('button');
+  b.dataset.id=o.id; b.textContent=o.icon+' '+o.name;
+  b.onclick=()=>loadOrgan(o); buttons.appendChild(b);
+});
+model.addEventListener('model-loaded',()=>{
+  model.setAttribute('visible','true');
+  if(!arStarted){setStatus('✓ '+current.name+' cargado.','Iniciando cámara con ajustes V6.3.');startAR()}
+  else setStatus('✓ '+current.name+' listo.','Apunta a la tarjeta.');
+});
+model.addEventListener('model-error',()=>{
+  setStatus('✗ No se pudo cargar '+current.name+'.','Revisa conexión o archivo en /model.');
+});
+scene.addEventListener('arReady',()=>setStatus('✓ Cámara lista.','Apunta a la tarjeta completa.'));
+scene.addEventListener('arError',()=>setStatus('✗ No se pudo iniciar la cámara.','Comprueba el permiso de cámara.'));
+target.addEventListener('targetFound',()=>current&&setStatus('✓ '+current.name+' en AR.','Mueve el teléfono lentamente.'));
+target.addEventListener('targetLost',()=>current&&setStatus('Busca nuevamente la tarjeta.','Mantén visible toda la tarjeta.'));
+window.addEventListener('load',()=>loadOrgan(ORGANS[0]));
+</script>
+</body>
+</html>
